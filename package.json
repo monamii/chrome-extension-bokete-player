@@ -18,6 +18,11 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@fullcalendar/angular": "^5.11.0",
+    "@fullcalendar/daygrid": "^5.11.0",
+    "@fullcalendar/interaction": "^5.11.0",
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -27,14 +32,17 @@
     "@angular-devkit/build-angular": "^14.0.6",
     "@angular/cli": "~14.0.6",
     "@angular/compiler-cli": "^14.0.0",
+    "@googleapis/calendar": "^2.0.0",
     "@types/chrome": "0.0.193",
     "@types/jasmine": "~4.0.0",
+    "css-loader": "^6.7.1",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "style-loader": "^3.3.1",
     "typescript": "~4.7.2"
   }
 }
