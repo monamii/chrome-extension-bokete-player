@@ -1,4 +1,48 @@
-<div id="buttonDiv"></div>
-<div>
-  <b>Choose a different background color!</b>
+<div id="container">
+  <div id="country_picker" class="section">
+    <div class="section_header">
+      <span class="title">Country Picker</span>
+      <button (click)="onAddButtonClick()">Add Country</button>
+
+      <div class="section_body">
+        <ul #countryOptionsArea>
+          <li *ngFor="let option of countryOptions" (click)="onCountryClick($event, option)"
+            [attr.disable]="watchList.has(option.code)">
+            {{option.label}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="country_search" class="section">
+    <div class="section_header">
+      <span class="title">Search</span>
+    </div>
+
+    <div class="section_body">
+      <input type="text" placeholder="Please enater country name" />
+    </div>
+  </div>
+
+  <div id="country_list" class="section">
+    <div class="section_header">
+      <span class="title">Picked Country List</span>
+    </div>
+
+    <div class="section_body">
+      <table>
+        <thead>
+          <tr>
+            <th>Country Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let country of watchList.values()">
+            <td>{{country.label}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
