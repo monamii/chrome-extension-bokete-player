@@ -1,27 +1,34 @@
 <div id="container">
-  <div id="country_picker" class="section">
-    <div class="section_header">
-      <span class="title">Country Picker</span>
-      <button (click)="onAddButtonClick()">Add Country</button>
 
-      <div class="section_body">
-        <ul #countryOptionsArea>
-          <li *ngFor="let option of countryOptions" (click)="onCountryClick($event, option)"
-            [attr.disable]="watchList.has(option.code)">
-            {{option.label}}
-          </li>
-        </ul>
+  <div id="country_picker_wrapper">
+    <div id="country_picker" class="section">
+      <div class="section_header">
+        <span class="title">Country Picker</span>
+        <button (click)="onAddButtonClick()">Add Country</button>
+        <div class="section_body">
+          <ul id="countryOptionList" #countryOptionsArea>
+            <li *ngFor="let region of countryOptions">
+              <span (click)="onRegionClick($event)" class="caret">{{region.label}}</span>
+              <ul class="nested list">
+                <li class="country_option_list" *ngFor="let option of region.country"
+                  (click)="onCountryClick($event, option)">
+                  <span class="country_option" [attr.disabled]="watchList.has(option.code)">{{option.label}}</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div id="country_search" class="section">
-    <div class="section_header">
-      <span class="title">Search</span>
-    </div>
+    <div id="country_search" class="section">
+      <div class="section_header">
+        <span class="title">Search</span>
+      </div>
 
-    <div class="section_body">
-      <input type="text" placeholder="Please enater country name" />
+      <div class="section_body">
+        <input type="text" class="search" placeholder="Please enater country name" />
+      </div>
     </div>
   </div>
 
@@ -35,11 +42,15 @@
         <thead>
           <tr>
             <th>Country Name</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let country of watchList.values()">
             <td>{{country.label}}</td>
+            <td>
+              <button type="button" (click)="onDeleteClick(country)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>

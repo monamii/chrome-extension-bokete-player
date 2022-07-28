@@ -3,6 +3,7 @@ import { CalendarOptions, EventInput } from '@fullcalendar/angular';
 import { DateClickArg } from '@fullcalendar/interaction';
 import axios from 'axios';
 import { calendar_v3 } from '@googleapis/calendar';
+import { Country } from 'src/model/Country';
 type Schema$Events = calendar_v3.Schema$Events;
 
 @Component({
@@ -25,12 +26,13 @@ export class PopupComponent implements OnInit {
   public async getHolidayEvents(): Promise<EventInput[]> {
     const eventList: EventInput[] = [];
 
-    const { countries } = await chrome.storage.sync.get('countries');
-    console.log(countries);
+    console.log('sync', (await chrome.storage.sync.get('watchList')));
+    const watchList: Country[] = (await chrome.storage.sync.get('watchList'))['watchList'];
+    console.log('popup watchList', watchList);
 
-    for (const country of countries) {
+    for (const country of watchList) {
       console.log(country);
-      const url: string = `https://www.googleapis.com/calendar/v3/calendars/en.${country}%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAxHZk4hcnmO1Bl9hJ5D_LxTYcRLrJQ7Lg`;
+      const url: string = `https://www.googleapis.com/calendar/v3/calendars/en.${country.code}%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAxHZk4hcnmO1Bl9hJ5D_LxTYcRLrJQ7Lg`;
       const { data } = await axios.get<Schema$Events>(url);
       if (data.items === undefined) {
         return eventList;
@@ -52,7 +54,7 @@ export class PopupComponent implements OnInit {
           while (startDate.getTime() < endDate.getTime()) {
             const event: EventInput = {
               // title: item.summary,
-              title: country,
+              title: country.label,
               date: startDate.toISOString().slice(0, 10),
             };
             eventList.push(event);

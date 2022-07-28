@@ -6,6 +6,8 @@
 #country_picker{
     grid-column: 1/2;
     grid-row: 1/2;
+    min-height: 200px;
+    padding-right: 20px
 }
 
 #country_search{
@@ -34,8 +36,45 @@
     background-color: #FFFFFF;
 }
 
-#country_picker .section_body li[selected]{
+#country_picker .section_body span[selected]{
     background-color: lightblue;
+}
+#country_picker .section_body span[disabled="true"]{
+    color: #9d9d9d;
+    background-color: #efefef;
+}
+#country_picker .section_body ul{
+    list-style-type: none;
+}
+#country_picker .section_body li{
+    padding: 3px 0px;
+}
+#country_picker .section_body #countryOptionList{
+    padding: 0px;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+
+.caret::before {
+    content: "\25B6";
+    color: rgb(202, 202, 202);
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret[active]::before{
+    transform: rotate(90deg);  
+    color: black; 
+}
+
+.nested{
+    display: none;
+}
+.nested[active]{
+    display: block; 
 }
 
 #country_search .section_body input{
