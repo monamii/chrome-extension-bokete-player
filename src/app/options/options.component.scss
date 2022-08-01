@@ -6,7 +6,8 @@
 #country_picker{
     grid-column: 1/2;
     grid-row: 1/2;
-    min-height: 200px;
+    height: 400px;
+    overflow-y: auto;
     padding-right: 20px
 }
 

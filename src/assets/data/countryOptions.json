@@ -1,0 +1,193 @@
+{
+    "regions": 
+    [
+        {
+            "label": "Asia",
+            "country": 
+            [
+              {
+                "label": "China",
+                "code": "china"
+              },
+              {
+                "label": "Hong Kong (C)",
+                "code": "hong_kong_c"
+              },
+              {
+                "label": "Hong Kong",
+                "code": "hong_kong"
+              },
+              {
+                "label": "India",
+                "code": "indian"
+              },
+              {
+                "label": "Indonesia",
+                "code": "indonesian"
+              },
+              {
+                "label": "Japan",
+                "code": "japanese"
+              },
+              {
+                "label": "Malaysia",
+                "code": "malaysia"
+              },
+              {
+                "label": "Philippines",
+                "code": "philippines"
+              },
+              {
+                "label": "Singapore",
+                "code": "singapore"
+              },
+              {
+                "label": "South Korea",
+                "code": "south_korea"
+              },
+              {
+                "label": "Taiwan",
+                "code": "taiwan"
+              },
+              {
+                "label": "Thai",
+                "code": "th"
+              },
+              {
+                "label": "Vietnam",
+                "code": "vietnamese"
+              }
+            ]
+        },
+        {
+            "label": "Australia & New Zealand",
+            "country": [
+              {
+                "label": "Australia",
+                "code": "australian"
+              },
+              {
+                "label": "New Zealand",
+                "code": "new_zealand"
+              }
+            ]
+        },
+        {
+            "label": "Europe",
+            "country": [
+              {
+                "label": "Austrian",
+                "code": "austrian"
+              },
+              {
+                "label": "Danish",
+                "code": "danish"
+              },
+              {
+                "label": "Dutch",
+                "code": "dutch"
+              },
+              {
+                "label": "Finnish",
+                "code": "finnish"
+              },
+              {
+                "label": "France",
+                "code": "french"
+              },
+              {
+                "label": "German",
+                "code": "german"
+              },
+              {
+                "label": "Greek",
+                "code": "greek"
+              },
+              {
+                "label": "Irish",
+                "code": "irish"
+              },
+              {
+                "label": "Italian",
+                "code": "italian"
+              },
+              {
+                "label": "Norwegian",
+                "code": "norwegian"
+              },
+              {
+                "label": "Polish",
+                "code": "polish"
+              },
+              {
+                "label": "Portuguese",
+                "code": "portuguese"
+              },
+              {
+                "label": "Russian",
+                "code": "russian"
+              },
+              {
+                "label": "Spain",
+                "code": "spain"
+              },
+              {
+                "label": "Swedish",
+                "code": "swedish"
+              },
+              {
+                "label": "UK",
+                "code": "uk"
+              }
+            ]
+        },
+        {
+            "label": "North America",
+            "country": [
+              {
+                "label": "Canada",
+                "code": "canadian"
+              },
+              {
+                "label": "Mexico",
+                "code": "mexican"
+              },
+              {
+                "label": "US",
+                "code": "usa"
+              }
+            ]
+        },
+        {
+            "label": "South America",
+            "country": [
+              {
+                "label": "Brazilian",
+                "code": "brazilian"
+              }
+            ]
+        },
+        {
+            "label": "Africa",
+            "country": [
+              {
+                "label": "South Africa",
+                "code": "sa"
+              }
+            ]
+        },
+        {
+            "label": "Middle East",
+            "country": [
+              {
+                "label": "Iranian",
+                "code": "iranian"
+              },
+              {
+                "label": "Islamic",
+                "code": "islamic"
+              }
+            ]
+        }
+    ]
+}

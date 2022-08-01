@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Country } from 'src/model/Country';
 import * as List from 'list.js';
-import { Region } from 'src/model/Region';
+import * as countryOptionsData from 'src/assets/data/countryOptions.json';
+import { CountryOptions } from 'src/model/CountryOptions';
 
 @Component({
   selector: 'app-options',
@@ -13,57 +14,10 @@ export class OptionsComponent implements OnInit {
 
   public watchList: Map<string, Country> = new Map();
   public selectedCountries: Map<string, Country> = new Map();
-  public countryOptions: Region[] = [];
+  public countryOptions: CountryOptions;
 
   constructor() {
-    this.loadCountryOptions();
-  }
-
-  private loadCountryOptions(): void{
-
-    this.countryOptions.push({
-      label: "Asia",
-      country: [
-        {
-          label: "India",
-          code: "indian"
-        },
-        {
-          label: "Japan",
-          code: "japanese"
-        },
-      ]
-    });
-
-    this.countryOptions.push({
-      label: "Australia & New Zealand",
-      country: [
-        {
-          label: "Australia",
-          code: "australian"
-        }
-      ]
-    });
-
-    this.countryOptions.push({
-      label: "Europe",
-      country: [
-        {
-          label: "France",
-          code: "french"
-        }
-      ]
-    });
-
-    this.countryOptions.push({
-      label: "North America",
-      country: [
-        {
-          label: "America",
-          code: "usa"
-        }
-      ]
-    });
+    this.countryOptions = countryOptionsData;
   }
 
   async ngOnInit(): Promise<void> {
