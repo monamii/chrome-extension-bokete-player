@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CalendarOptions, DayCellMountArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
-import axios from 'axios';
-import { calendar_v3 } from '@googleapis/calendar';
-import { Country } from 'src/model/Country';
-type Schema$Events = calendar_v3.Schema$Events;
+import { CalendarApiData } from 'src/model/CalendarApiData';
+
 
 @Component({
   selector: 'popup',
@@ -44,18 +42,42 @@ export class PopupComponent implements OnInit {
   }
 
   public async ngOnInit(): Promise<void> {
+    console.log('ngOnInit');
+    
     this.calendarOptions.events = await this.getHolidayEvents();
+
+    const changeEvent = (changes: {[key: string]: chrome.storage.StorageChange}, area: 'local' | 'sync' | "managed" | "session") => {
+      const newValue: CalendarApiData[] | undefined = changes['calendarApiDataList']?.newValue;
+      const oldValue: CalendarApiData[] | undefined = changes['calendarApiDataList']?.oldValue;
+      console.log('changeEvent', newValue !== oldValue, newValue, oldValue);
+      if (area === 'local' && newValue !== undefined && newValue !== oldValue) {
+        console.log('changeEvent inside');
+        this.getHolidayEvents().then(
+          (events: EventInput[]) => {
+            this.calendarOptions.events = events;
+          }
+        );
+        chrome.storage.onChanged.removeListener(changeEvent);
+      }
+    };
+    chrome.storage.onChanged.addListener(changeEvent);
+    console.log('ngOnInit end');
   }
 
   public async getHolidayEvents(): Promise<EventInput[]> {
     const eventList: EventInput[] = [];
+    const {calendarApiDataList} = await chrome.storage.local.get('calendarApiDataList');
 
-    const watchList: Country[] = (await chrome.storage.sync.get('watchList'))['watchList'];
+    console.log('getHolidayEvents', calendarApiDataList);
+    if(calendarApiDataList === undefined){
+      console.log('getHolidayEvents empty');
+      return eventList;
+    }
 
-    for (const country of watchList) {
-      const url: string = `https://www.googleapis.com/calendar/v3/calendars/en.${country.code}%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAxHZk4hcnmO1Bl9hJ5D_LxTYcRLrJQ7Lg`;
-      console.log(url);
-      const { data } = await axios.get<Schema$Events>(url);
+    for (const calendarApiData of calendarApiDataList) {
+      const data = calendarApiData.data;
+      const country = calendarApiData.country;
+
       if (data.items === undefined) {
         return eventList;
       }
@@ -80,7 +102,6 @@ export class PopupComponent implements OnInit {
               date: dateKey,
             };
 
-            console.log(startDate, event.title, item.start);
             const events: EventInput[] | undefined = this.eventMap.get(dateKey);
             if(events !== undefined){
               events.push(event);
