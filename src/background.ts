@@ -1,18 +1,20 @@
 import { calendar_v3 } from '@googleapis/calendar';
 import { CalendarApiData } from "./model/CalendarApiData";
+import { debounce } from "lodash";
 
 console.log('background');
+
+const debouncedFunction = debounce(getApiData, 1000);
 
 chrome.runtime.onInstalled.addListener(async () => {
   await getApiData();
 });
 
 chrome.storage.onChanged.addListener(async (changes, area) => {
-  console.log('background watchList onChanged');
   if(area === 'sync' && changes['watchList']?.newValue !== undefined){
 
-    console.log('background watchList onChanged inside');
-    await getApiData();
+    console.log('watchlist onChanged', changes['watchList']?.newValue.length);
+    debouncedFunction();
   }
 });
 
@@ -20,7 +22,6 @@ async function getApiData(){
   
   const {watchList} = await chrome.storage.sync.get('watchList');
   if(watchList === undefined){
-    console.log('background: no watchlist');
     return;
   }
 
@@ -33,6 +34,6 @@ async function getApiData(){
       data: await response.json()}
       );
   }
-  console.log('background', calendarApiDataList);
+  console.log('Get holidays for', calendarApiDataList.length, 'countries');
   await chrome.storage.local.set({'calendarApiDataList': calendarApiDataList});
 }

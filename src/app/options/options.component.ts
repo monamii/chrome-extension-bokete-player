@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Country } from 'src/model/Country';
 import * as List from 'list.js';
 import * as countryOptionsData from 'src/assets/data/countryOptions.json';
@@ -13,10 +13,11 @@ export class OptionsComponent implements OnInit {
   @ViewChild("countryOptionsArea")  countryOptionsArea!: ElementRef<HTMLUListElement>;
 
   public watchList: Map<string, Country> = new Map();
+  public displayWatchList: Country[] = [];
   public selectedCountries: Map<string, Country> = new Map();
   public countryOptions: CountryOptions;
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.countryOptions = countryOptionsData;
   }
 
@@ -25,6 +26,7 @@ export class OptionsComponent implements OnInit {
     for(const country of watchList as Country[]){
       this.watchList.set(country.code, country);
     }
+    this.displayWatchList = Array.from(this.watchList.values());
 
     new List('country_picker_wrapper', { 
       valueNames: ['country_option']
@@ -45,8 +47,6 @@ export class OptionsComponent implements OnInit {
     }else{
       this.selectedCountries.set(country.code, country);
     }
-
-    console.log(this.selectedCountries.keys());
   }
 
   public async onAddButtonClick(){
@@ -65,12 +65,15 @@ export class OptionsComponent implements OnInit {
     this.watchList = new Map([...this.watchList.entries()].sort((a: [string, Country], b:[string, Country])=>{
       return a[1].label.localeCompare(b[1].label);
     }));
+    
+    this.displayWatchList = Array.from(this.watchList.values());
 
     await chrome.storage.sync.set({watchList: Array.from(this.watchList.values())});
   }
 
   public async onDeleteClick(country: Country): Promise<void>{
     this.watchList.delete(country.code);
+    this.displayWatchList = Array.from(this.watchList.values());
     await chrome.storage.sync.set({watchList: Array.from(this.watchList.values())});
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions, DayCellMountArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions, DayCellMountArg, EventInput, EventMountArg, FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarApiData } from 'src/model/CalendarApiData';
 
 
@@ -13,10 +13,24 @@ export class PopupComponent implements OnInit {
   public calendarOptions: CalendarOptions = {};
   private eventMap: Map<string, EventInput[]> = new Map();
 
+  private readonly COUNTRY_FLAG_PATH: string = 'assets\\images\\flags\\'; 
+
   constructor() {
     FullCalendarComponent
     this.calendarOptions = {
       initialView: 'dayGridMonth',
+      height: '100%',
+      customButtons: {
+        optionsButton: {
+          text: 'Options',
+          click: function() {
+            chrome.runtime.openOptionsPage();
+          }
+        }
+      },
+      footerToolbar: {
+        left: 'optionsButton'
+      },
       dayCellDidMount: (arg: DayCellMountArg)=>{
         arg.el.addEventListener('mouseover', (event)=>{
 
@@ -26,32 +40,45 @@ export class PopupComponent implements OnInit {
           const events: EventInput[] | undefined = this.eventMap.get(key);
           if(events !== undefined && arg.el.getElementsByClassName('day_detail_tooltip').length === 0){
   
-            let title = '';
+            let innerText = '';
             for(let event of events){
-              title += event.title + "\n";
+              const holiday = event['holiday'];
+              innerText += `${event.title}: ${holiday}\n`;
             }
 
             const element: HTMLSpanElement = document.createElement('span');
             element.classList.add('day_detail_tooltip');
-            element.innerText = title
+            element.innerText = innerText
             arg.el.appendChild(element);
           }
         });
+      },
+      eventColor: 'white',
+      eventTextColor: 'black',
+      eventOrder: 'title',
+      eventDidMount: (arg: EventMountArg)=>{
+        
+        const titleDiv = arg.el.getElementsByClassName('fc-event-title');
+        if(titleDiv.length > 0){
+          const img = document.createElement('img');
+          const image = arg.event.extendedProps['image'];
+          img.src = `${this.COUNTRY_FLAG_PATH}${image}`;
+          img.classList.add('country_flag');
+
+          titleDiv[0].before(img);
+        }
       }
     };
   }
 
   public async ngOnInit(): Promise<void> {
-    console.log('ngOnInit');
     
     this.calendarOptions.events = await this.getHolidayEvents();
 
     const changeEvent = (changes: {[key: string]: chrome.storage.StorageChange}, area: 'local' | 'sync' | "managed" | "session") => {
       const newValue: CalendarApiData[] | undefined = changes['calendarApiDataList']?.newValue;
       const oldValue: CalendarApiData[] | undefined = changes['calendarApiDataList']?.oldValue;
-      console.log('changeEvent', newValue !== oldValue, newValue, oldValue);
       if (area === 'local' && newValue !== undefined && newValue !== oldValue) {
-        console.log('changeEvent inside');
         this.getHolidayEvents().then(
           (events: EventInput[]) => {
             this.calendarOptions.events = events;
@@ -61,14 +88,12 @@ export class PopupComponent implements OnInit {
       }
     };
     chrome.storage.onChanged.addListener(changeEvent);
-    console.log('ngOnInit end');
   }
 
   public async getHolidayEvents(): Promise<EventInput[]> {
     const eventList: EventInput[] = [];
     const {calendarApiDataList} = await chrome.storage.local.get('calendarApiDataList');
 
-    console.log('getHolidayEvents', calendarApiDataList);
     if(calendarApiDataList === undefined){
       console.log('getHolidayEvents empty');
       return eventList;
@@ -98,8 +123,10 @@ export class PopupComponent implements OnInit {
           while (startDate.getTime() < endDate.getTime()) {
             const dateKey = startDate.toISOString().slice(0, 10);
             const event: EventInput = {
-              title: `${country.label}: ${item.summary}`,
+              title: country.label,
               date: dateKey,
+              image: country.image,
+              holiday: item.summary,
             };
 
             const events: EventInput[] | undefined = this.eventMap.get(dateKey);

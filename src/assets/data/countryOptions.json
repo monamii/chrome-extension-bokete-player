@@ -1,193 +1,229 @@
 {
-    "regions": 
-    [
-        {
-            "label": "Asia",
-            "country": 
-            [
-              {
-                "label": "China",
-                "code": "china"
-              },
-              {
-                "label": "Hong Kong (C)",
-                "code": "hong_kong_c"
-              },
-              {
-                "label": "Hong Kong",
-                "code": "hong_kong"
-              },
-              {
-                "label": "India",
-                "code": "indian"
-              },
-              {
-                "label": "Indonesia",
-                "code": "indonesian"
-              },
-              {
-                "label": "Japan",
-                "code": "japanese"
-              },
-              {
-                "label": "Malaysia",
-                "code": "malaysia"
-              },
-              {
-                "label": "Philippines",
-                "code": "philippines"
-              },
-              {
-                "label": "Singapore",
-                "code": "singapore"
-              },
-              {
-                "label": "South Korea",
-                "code": "south_korea"
-              },
-              {
-                "label": "Taiwan",
-                "code": "taiwan"
-              },
-              {
-                "label": "Thai",
-                "code": "th"
-              },
-              {
-                "label": "Vietnam",
-                "code": "vietnamese"
-              }
-            ]
-        },
-        {
-            "label": "Australia & New Zealand",
-            "country": [
-              {
-                "label": "Australia",
-                "code": "australian"
-              },
-              {
-                "label": "New Zealand",
-                "code": "new_zealand"
-              }
-            ]
-        },
-        {
-            "label": "Europe",
-            "country": [
-              {
-                "label": "Austrian",
-                "code": "austrian"
-              },
-              {
-                "label": "Danish",
-                "code": "danish"
-              },
-              {
-                "label": "Dutch",
-                "code": "dutch"
-              },
-              {
-                "label": "Finnish",
-                "code": "finnish"
-              },
-              {
-                "label": "France",
-                "code": "french"
-              },
-              {
-                "label": "German",
-                "code": "german"
-              },
-              {
-                "label": "Greek",
-                "code": "greek"
-              },
-              {
-                "label": "Irish",
-                "code": "irish"
-              },
-              {
-                "label": "Italian",
-                "code": "italian"
-              },
-              {
-                "label": "Norwegian",
-                "code": "norwegian"
-              },
-              {
-                "label": "Polish",
-                "code": "polish"
-              },
-              {
-                "label": "Portuguese",
-                "code": "portuguese"
-              },
-              {
-                "label": "Russian",
-                "code": "russian"
-              },
-              {
-                "label": "Spain",
-                "code": "spain"
-              },
-              {
-                "label": "Swedish",
-                "code": "swedish"
-              },
-              {
-                "label": "UK",
-                "code": "uk"
-              }
-            ]
-        },
-        {
-            "label": "North America",
-            "country": [
-              {
-                "label": "Canada",
-                "code": "canadian"
-              },
-              {
-                "label": "Mexico",
-                "code": "mexican"
-              },
-              {
-                "label": "US",
-                "code": "usa"
-              }
-            ]
-        },
-        {
-            "label": "South America",
-            "country": [
-              {
-                "label": "Brazilian",
-                "code": "brazilian"
-              }
-            ]
-        },
-        {
-            "label": "Africa",
-            "country": [
-              {
-                "label": "South Africa",
-                "code": "sa"
-              }
-            ]
-        },
-        {
-            "label": "Middle East",
-            "country": [
-              {
-                "label": "Iranian",
-                "code": "iranian"
-              },
-              {
-                "label": "Islamic",
-                "code": "islamic"
-              }
-            ]
-        }
-    ]
+	"regions": [
+		{
+			"label": "Asia",
+			"country": [
+				{
+					"label": "China",
+					"code": "china",
+					"image": "flag-of-China.png"
+				},
+				{
+					"label": "Hong Kong (C)",
+					"code": "hong_kong_c",
+					"image": "flag-of-Hong-Kong.png"
+				},
+				{
+					"label": "Hong Kong",
+					"code": "hong_kong",
+					"image": "flag-of-Hong-Kong.png"
+				},
+				{
+					"label": "India",
+					"code": "indian",
+					"image": "flag-of-India.png"
+				},
+				{
+					"label": "Indonesia",
+					"code": "indonesian",
+					"image": "flag-of-Indonesia.png"
+				},
+				{
+					"label": "Japan",
+					"code": "japanese",
+					"image": "flag-of-Japan.png"
+				},
+				{
+					"label": "Malaysia",
+					"code": "malaysia",
+					"image": "flag-of-Malaysia.png"
+				},
+				{
+					"label": "Philippines",
+					"code": "philippines",
+					"image": "flag-of-Philippines.png"
+				},
+				{
+					"label": "Singapore",
+					"code": "singapore",
+					"image": "flag-of-Singapore.png"
+				},
+				{
+					"label": "South Korea",
+					"code": "south_korea",
+					"image": "flag-of-Korea-South.png"
+				},
+				{
+					"label": "Taiwan",
+					"code": "taiwan",
+					"image": "flag-of-Taiwan.png"
+				},
+				{
+					"label": "Thailand",
+					"code": "th",
+					"image": "flag-of-Thailand.png"
+				},
+				{
+					"label": "Vietnam",
+					"code": "vietnamese",
+					"image": "flag-of-Vietnam.png"
+				}
+			]
+		},
+		{
+			"label": "Australia & New Zealand",
+			"country": [
+				{
+					"label": "Australia",
+					"code": "australian",
+					"image": "flag-of-Australia.png"
+				},
+				{
+					"label": "New Zealand",
+					"code": "new_zealand",
+					"image": "flag-of-New-Zealand.png"
+				}
+			]
+		},
+		{
+			"label": "Europe",
+			"country": [
+				{
+					"label": "Austria",
+					"code": "austrian",
+					"image": "flag-of-Austria.png"
+				},
+				{
+					"label": "Denmark",
+					"code": "danish",
+					"image": "flag-of-Denmark.png"
+				},
+				{
+					"label": "Netherlands",
+					"code": "dutch",
+					"image": "flag-of-Netherlands.png"
+				},
+				{
+					"label": "Finland",
+					"code": "finnish",
+					"image": "flag-of-Finland.png"
+				},
+				{
+					"label": "France",
+					"code": "french",
+					"image": "flag-of-France.png"
+				},
+				{
+					"label": "German",
+					"code": "german",
+					"image": "flag-of-German.png"
+				},
+				{
+					"label": "Greek",
+					"code": "greek",
+					"image": "flag-of-Greek.png"
+				},
+				{
+					"label": "Ireland",
+					"code": "irish",
+					"image": "flag-of-Ireland.png"
+				},
+				{
+					"label": "Italiy",
+					"code": "italian",
+					"image": "flag-of-Italiy.png"
+				},
+				{
+					"label": "Norway",
+					"code": "norwegian",
+					"image": "flag-of-Norway.png"
+				},
+				{
+					"label": "Poland",
+					"code": "polish",
+					"image": "flag-of-Poland.png"
+				},
+				{
+					"label": "Portugal",
+					"code": "portuguese",
+					"image": "flag-of-Portugal.png"
+				},
+				{
+					"label": "Russia",
+					"code": "russian",
+					"image": "flag-of-Russia.png"
+				},
+				{
+					"label": "Spain",
+					"code": "spain",
+					"image": "flag-of-Spain.png"
+				},
+				{
+					"label": "Sweden",
+					"code": "swedish",
+					"image": "flag-of-Sweden.png"
+				},
+				{
+					"label": "UK",
+					"code": "uk",
+					"image": "flag-of-United-Kingdom.png"
+				}
+			]
+		},
+		{
+			"label": "North America",
+			"country": [
+				{
+					"label": "Canada",
+					"code": "canadian",
+					"image": "flag-of-Canada.png"
+				},
+				{
+					"label": "Mexico",
+					"code": "mexican",
+					"image": "flag-of-Mexico.png"
+				},
+				{
+					"label": "US",
+					"code": "usa",
+					"image": "flag-of-United-States-of-America.png"
+				}
+			]
+		},
+		{
+			"label": "South America",
+			"country": [
+				{
+					"label": "Brazilian",
+					"code": "brazilian",
+					"image": "flag-of-China.png"
+				}
+			]
+		},
+		{
+			"label": "Africa",
+			"country": [
+				{
+					"label": "South Africa",
+					"code": "sa",
+					"image": "flag-of-China.png"
+				}
+			]
+		},
+		{
+			"label": "Middle East",
+			"country": [
+				{
+					"label": "Iranian",
+					"code": "iranian",
+					"image": "flag-of-China.png"
+				},
+				{
+					"label": "Islamic",
+					"code": "islamic",
+					"image": "flag-of-China.png"
+				}
+			]
+		}
+	]
 }

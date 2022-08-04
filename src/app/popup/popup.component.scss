@@ -1,7 +1,7 @@
 popup {
     display: inline-block;
-    height: 500px;
-    width: 500px;
+    height: 550px;
+    width: 550px;
   }
 
 .fc-day {
@@ -35,4 +35,14 @@ popup {
 
 .fc-day:hover .day_detail_tooltip {
 	display: block;
+}
+
+.fc-h-event .fc-event-title {
+  max-width: 70% !important;
+}
+
+.country_flag{
+  width: 20px;
+  height: 12px;
+  border: 1px solid black;
 }
