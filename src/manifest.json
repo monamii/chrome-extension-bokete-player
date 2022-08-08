@@ -1,7 +1,7 @@
 {
-    "name": "Great Extension",
+    "name": "World Calendar",
     "version": "1.0",
-    "description": "Build an Extension with Angular",
+    "description": "Display selected country/location's holidays on a calendar.",
     "manifest_version": 3,
     "permissions": [
         "activeTab",

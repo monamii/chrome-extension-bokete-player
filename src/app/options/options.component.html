@@ -12,7 +12,8 @@
               <ul class="nested list">
                 <li class="country_option_list" *ngFor="let option of region.country"
                   (click)="onCountryClick($event, option)">
-                  <span class="country_option" [attr.disabled]="watchList.has(option.code)">{{option.label}}</span>
+                  <span class="country_option" [attr.disabled]="watchList.has(option.code)"
+                    [attr.selected]="selectedCountries.has(option.code)">{{option.label}}</span>
                 </li>
               </ul>
             </li>
@@ -46,7 +47,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let country of displayWatchList">
+          <tr *ngFor="let country of sortedWatchList">
             <td>{{country.label}}</td>
             <td>
               <button type="button" (click)="onDeleteClick(country)">Delete</button>

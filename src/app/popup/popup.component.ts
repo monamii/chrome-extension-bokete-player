@@ -1,7 +1,20 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions, DayCellMountArg, EventInput, EventMountArg, FullCalendarComponent } from '@fullcalendar/angular';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  CalendarOptions,
+  DayCellMountArg,
+  EventInput,
+  EventMountArg,
+} from '@fullcalendar/angular';
 import { CalendarApiData } from 'src/model/CalendarApiData';
-
+import { ChromeStorage } from 'src/model/enum/ChromeStorage';
+import { Area, StorageChange } from 'src/model/type/ChromeSupplementalType';
 
 @Component({
   selector: 'popup',
@@ -11,80 +24,55 @@ import { CalendarApiData } from 'src/model/CalendarApiData';
 })
 export class PopupComponent implements OnInit {
   public calendarOptions: CalendarOptions = {};
-  private eventMap: Map<string, EventInput[]> = new Map();
+  private eventMap: Map<string, Map<string, EventInput>> = new Map();
+  @ViewChild('dayTooltip') dayTooltip!: ElementRef<HTMLSpanElement>;
 
-  private readonly COUNTRY_FLAG_PATH: string = 'assets\\images\\flags\\'; 
+  private readonly COUNTRY_FLAG_PATH: string = 'assets\\images\\flags\\';
 
   constructor() {
-    FullCalendarComponent
     this.calendarOptions = {
       initialView: 'dayGridMonth',
       height: '100%',
+
       customButtons: {
         optionsButton: {
           text: 'Options',
-          click: function() {
+          click: function () {
             chrome.runtime.openOptionsPage();
-          }
-        }
+          },
+        },
       },
       footerToolbar: {
-        left: 'optionsButton'
+        left: 'optionsButton',
       },
-      dayCellDidMount: (arg: DayCellMountArg)=>{
-        arg.el.addEventListener('mouseover', (event)=>{
 
-          const date = (arg.date.getDate()).toString().padStart(2, '0');
-          const month = (arg.date.getMonth()+1).toString().padStart(2, '0');
-          const key = `${arg.date.getFullYear()}-${month}-${date}`;
-          const events: EventInput[] | undefined = this.eventMap.get(key);
-          if(events !== undefined && arg.el.getElementsByClassName('day_detail_tooltip').length === 0){
-  
-            let innerText = '';
-            for(let event of events){
-              const holiday = event['holiday'];
-              innerText += `${event.title}: ${holiday}\n`;
-            }
-
-            const element: HTMLSpanElement = document.createElement('span');
-            element.classList.add('day_detail_tooltip');
-            element.innerText = innerText
-            arg.el.appendChild(element);
-          }
-        });
+      dayCellDidMount: (arg: DayCellMountArg) => {
+        this.addTooltipToDay(arg);
       },
+
       eventColor: 'white',
       eventTextColor: 'black',
       eventOrder: 'title',
-      eventDidMount: (arg: EventMountArg)=>{
-        
-        const titleDiv = arg.el.getElementsByClassName('fc-event-title');
-        if(titleDiv.length > 0){
-          const img = document.createElement('img');
-          const image = arg.event.extendedProps['image'];
-          img.src = `${this.COUNTRY_FLAG_PATH}${image}`;
-          img.classList.add('country_flag');
-
-          titleDiv[0].before(img);
-        }
-      }
+      eventDidMount: (arg: EventMountArg) => {
+        this.addFlagImageToEvent(arg);
+      },
     };
   }
 
   public async ngOnInit(): Promise<void> {
-    
     this.calendarOptions.events = await this.getHolidayEvents();
 
-    const changeEvent = (changes: {[key: string]: chrome.storage.StorageChange}, area: 'local' | 'sync' | "managed" | "session") => {
-      const newValue: CalendarApiData[] | undefined = changes['calendarApiDataList']?.newValue;
-      const oldValue: CalendarApiData[] | undefined = changes['calendarApiDataList']?.oldValue;
-      if (area === 'local' && newValue !== undefined && newValue !== oldValue) {
-        this.getHolidayEvents().then(
-          (events: EventInput[]) => {
-            this.calendarOptions.events = events;
-          }
-        );
-        chrome.storage.onChanged.removeListener(changeEvent);
+    const changeEvent = async (
+      changes: { [key: string]: StorageChange },
+      area: Area
+    ) => {
+      const newValue: CalendarApiData[] | undefined =
+        changes[ChromeStorage.CALENDAR_API_DATA_LIST]?.newValue;
+
+      console.log('popup: CALENDAR_API_DATA_LIST onChanged', newValue);
+
+      if (area === 'local' && newValue !== undefined) {
+        this.calendarOptions.events = await this.getHolidayEvents();
       }
     };
     chrome.storage.onChanged.addListener(changeEvent);
@@ -92,56 +80,108 @@ export class PopupComponent implements OnInit {
 
   public async getHolidayEvents(): Promise<EventInput[]> {
     const eventList: EventInput[] = [];
-    const {calendarApiDataList} = await chrome.storage.local.get('calendarApiDataList');
+    const newEventMap: Map<string, Map<string, EventInput>> = new Map();
 
-    if(calendarApiDataList === undefined){
-      console.log('getHolidayEvents empty');
+    const { calendarApiDataList } = await chrome.storage.local.get(
+      ChromeStorage.CALENDAR_API_DATA_LIST
+    );
+
+    console.log('popup: getHolidayEvents', calendarApiDataList);
+
+    if (calendarApiDataList === undefined) {
       return eventList;
     }
 
-    for (const calendarApiData of calendarApiDataList) {
+    for (const calendarApiData of <CalendarApiData[]>calendarApiDataList) {
       const data = calendarApiData.data;
       const country = calendarApiData.country;
+      console.log(`popup: getHolidayEvents ${country.label}`);
 
       if (data.items === undefined) {
-        return eventList;
+        console.log('popup: getHolidayEvents data.items empty');
+        continue;
       }
 
       for (const item of data.items) {
         if (
           item.description === 'Public holiday' &&
-          item.summary !== null &&
-          item.summary !== undefined &&
-          item.start?.date !== null &&
-          item.start?.date !== undefined &&
-          item.end?.date !== null &&
-          item.end?.date !== undefined
+          item.summary != null &&
+          item.start?.date != null &&
+          item.end?.date != null
         ) {
-          const startDate = new Date(item.start?.date);
-          const endDate = new Date(item.end?.date);
+          const startDate = new Date(item.start.date);
 
-          while (startDate.getTime() < endDate.getTime()) {
-            const dateKey = startDate.toISOString().slice(0, 10);
-            const event: EventInput = {
-              title: country.label,
-              date: dateKey,
-              image: country.image,
-              holiday: item.summary,
-            };
+          const dateKey = startDate.toISOString().slice(0, 10);
+          const holidayName = item.summary;
 
-            const events: EventInput[] | undefined = this.eventMap.get(dateKey);
-            if(events !== undefined){
-              events.push(event);
-            }else{
-              this.eventMap.set(dateKey, [event]);
-            }
+          const event: EventInput = {
+            title: country.label,
+            start: item.start.date,
+            end: item.end.date,
+            image: country.image,
+            holiday: holidayName,
+          };
 
-            eventList.push(event);
-            startDate.setDate(startDate.getDate() + 1);
+          const events = newEventMap.get(dateKey);
+          if (events !== undefined) {
+            events.set(holidayName, event);
+          } else {
+            const map = new Map();
+            map.set(holidayName, event);
+            newEventMap.set(dateKey, map);
           }
+
+          eventList.push(event);
         }
       }
     }
+    this.eventMap = newEventMap;
+    console.log('getHlidays', this.eventMap);
     return eventList;
+  }
+
+  private addFlagImageToEvent(arg: EventMountArg): void {
+    const titleDiv = arg.el.getElementsByClassName('fc-event-title');
+    if (titleDiv.length > 0) {
+      const img = document.createElement('img');
+      const image = arg.event.extendedProps['image'];
+      img.src = `${this.COUNTRY_FLAG_PATH}${image}`;
+      img.classList.add('country_flag');
+
+      titleDiv[0].before(img);
+    }
+  }
+
+  private addTooltipToDay(arg: DayCellMountArg): void {
+    const element: HTMLSpanElement = document.createElement('span');
+    element.classList.add('day_detail_tooltip');
+    arg.el.appendChild(element);
+
+    const createTooltip = (event: MouseEvent) => {
+      const td: HTMLTableCellElement = <HTMLTableCellElement>event.target;
+      const elements = td.getElementsByClassName('day_detail_tooltip');
+      if (elements.length < 1) {
+        return;
+      }
+
+      const element = <HTMLElement>elements[0];
+      element.innerText = '';
+
+      const date = arg.date.getDate().toString().padStart(2, '0');
+      const month = (arg.date.getMonth() + 1).toString().padStart(2, '0');
+      const key = `${arg.date.getFullYear()}-${month}-${date}`;
+      const events = this.eventMap.get(key);
+
+      if (events !== undefined) {
+        let innerText = '';
+        for (let event of events.values()) {
+          const holiday = event['holiday'];
+          innerText += `${event.title}: ${holiday}\n`;
+        }
+        element.innerText = innerText;
+      }
+    };
+
+    arg.el.addEventListener('mouseenter', createTooltip);
   }
 }

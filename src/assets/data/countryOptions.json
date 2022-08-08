@@ -9,11 +9,6 @@
 					"image": "flag-of-China.png"
 				},
 				{
-					"label": "Hong Kong (C)",
-					"code": "hong_kong_c",
-					"image": "flag-of-Hong-Kong.png"
-				},
-				{
 					"label": "Hong Kong",
 					"code": "hong_kong",
 					"image": "flag-of-Hong-Kong.png"

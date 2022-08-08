@@ -33,7 +33,7 @@ popup {
   z-index: 10;
 }
 
-.fc-day:hover .day_detail_tooltip {
+.fc-day:hover .day_detail_tooltip:not(:empty) {
 	display: block;
 }
 
