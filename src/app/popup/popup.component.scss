@@ -8,29 +8,51 @@ popup {
     position: relative;
 }
 
+// .day_detail_tooltip {
+//     position: absolute;
+//     bottom: 80%;
+//     left: 0px;
+//     padding: 6px 10px;
+//     background: #01579B;
+//     color: #FFF;
+//     width: 200px;
+//     font-size: 0.8rem;
+//     border-radius: 10px;
+//     transition: 0.5s;
+//     display: none;
+//     z-index: 10;
+// }
+
 .day_detail_tooltip {
-    position: absolute;
-    bottom: 80%;
-    left: 0px;
-    padding: 6px 10px;
-    background: #01579B;
-    color: #FFF;
-    width: 200px;
-    font-size: 0.8rem;
-    border-radius: 10px;
-    transition: 0.5s;
-    display: none;
-    z-index: 10;
+  position: absolute;
+  padding: 6px 10px;
+  background: #01579B;
+  color: #FFF;
+  width: 200px;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  transition: 0.5s;
+  display: none;
+  z-index: 10;
+  opacity: 0.9;
 }
 
-.day_detail_tooltip:after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 16px;
-  border: 5px solid transparent;
-  border-top: 8px solid #01579B;
-  z-index: 10;
+.day_detail_tooltip_location {
+    bottom: 80%;
+    left: 0px;
+}
+
+.fc-scrollgrid-sync-table tr:nth-child(1) .day_detail_tooltip_location,
+.fc-scrollgrid-sync-table tr:nth-child(2) .day_detail_tooltip_location {
+    bottom: -25%;
+}
+
+.fc-scrollgrid-sync-table tr td:nth-child(6) .day_detail_tooltip_location {
+    left: -50px;
+}
+
+.fc-scrollgrid-sync-table tr td:nth-child(7) .day_detail_tooltip_location {
+    left: -130px;
 }
 
 .fc-day:hover .day_detail_tooltip:not(:empty) {

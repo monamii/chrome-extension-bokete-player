@@ -111,12 +111,12 @@
 				{
 					"label": "German",
 					"code": "german",
-					"image": "flag-of-German.png"
+					"image": "flag-of-Germany.png"
 				},
 				{
 					"label": "Greek",
 					"code": "greek",
-					"image": "flag-of-Greek.png"
+					"image": "flag-of-Greece.png"
 				},
 				{
 					"label": "Ireland",
@@ -124,9 +124,9 @@
 					"image": "flag-of-Ireland.png"
 				},
 				{
-					"label": "Italiy",
+					"label": "Italy",
 					"code": "italian",
-					"image": "flag-of-Italiy.png"
+					"image": "flag-of-Italy.png"
 				},
 				{
 					"label": "Norway",

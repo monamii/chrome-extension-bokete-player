@@ -1,6 +1,6 @@
-import { CalendarApiData } from './model/CalendarApiData';
+import { CalendarApiData } from './app/model/CalendarApiData';
 import { debounce } from 'lodash';
-import { ChromeStorage } from './model/enum/ChromeStorage';
+import { ChromeStorage } from './app/model/enum/ChromeStorage';
 
 console.log('background: called', new Date());
 

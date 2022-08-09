@@ -5,11 +5,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Country } from 'src/model/Country';
+import { Country } from 'src/app/model/Country';
 import * as List from 'list.js';
 import * as countryOptionsData from 'src/assets/data/countryOptions.json';
-import { CountryOptions } from 'src/model/CountryOptions';
-import { ChromeStorage } from 'src/model/enum/ChromeStorage';
+import { CountryOptions } from 'src/app/model/CountryOptions';
+import { ChromeStorage } from 'src/app/model/enum/ChromeStorage';
 
 @Component({
   selector: 'app-options',
