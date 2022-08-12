@@ -81,22 +81,49 @@ export class FullCalendarService {
         return;
       }
 
-      const div: HTMLDivElement = document.createElement('div');
-      element.appendChild(div);
+      const table: HTMLDivElement = document.createElement('table');
+      element.appendChild(table);
+
       for (let event of events) {
-        const eventDiv: HTMLDivElement = document.createElement('div');
-        const eventImg: HTMLImageElement = this.createEventImgElement(
+        const countryDiv: HTMLDivElement = document.createElement('div');
+        const countruImg: HTMLImageElement = this.createEventImgElement(
           event['image']
         );
+        const countrySpan: HTMLSpanElement = document.createElement('span');
+        countrySpan.innerText = `${event.title}`;
 
-        const eventSpan: HTMLSpanElement = document.createElement('span');
-        eventSpan.innerText = `${event.title}: ${event['holiday']}`;
+        countryDiv.appendChild(countruImg);
+        countryDiv.appendChild(countrySpan);
 
-        eventDiv.appendChild(eventImg);
-        eventDiv.appendChild(eventSpan);
+        const countryTd: HTMLDivElement = document.createElement('td');
+        countryTd.appendChild(countryDiv);
 
-        div.appendChild(eventDiv);
+        const holidayTd: HTMLDivElement = document.createElement('td');
+        holidayTd.innerText = event['holiday'];
+
+        const eventTr: HTMLDivElement = document.createElement('tr');
+
+        eventTr.appendChild(countryTd);
+        eventTr.appendChild(holidayTd);
+        table.appendChild(eventTr);
       }
+
+      // const div: HTMLDivElement = document.createElement('div');
+      // element.appendChild(div);
+      // for (let event of events) {
+      //   const eventDiv: HTMLDivElement = document.createElement('div');
+      //   const eventImg: HTMLImageElement = this.createEventImgElement(
+      //     event['image']
+      //   );
+
+      //   const eventSpan: HTMLSpanElement = document.createElement('span');
+      //   eventSpan.innerText = `${event.title}: ${event['holiday']}`;
+
+      //   eventDiv.appendChild(eventImg);
+      //   eventDiv.appendChild(eventSpan);
+
+      //   div.appendChild(eventDiv);
+      // }
     });
   }
 
@@ -118,19 +145,12 @@ export class FullCalendarService {
     this.eventMap = newEventMap;
   }
 
-  public async getHolidayEvents(): Promise<EventInput[]> {
+  public async getHolidayEvents(
+    calendarApiDataList: CalendarApiData[]
+  ): Promise<EventInput[]> {
     const result: EventInput[] = [];
 
-    const { calendarApiDataList } = await chrome.storage.local.get(
-      ChromeStorage.CALENDAR_API_DATA_LIST
-    );
-
-    if (calendarApiDataList === undefined) {
-      console.log('CalendarService: calendarApiDataList empty');
-      return result;
-    }
-
-    for (const calendarApiData of <CalendarApiData[]>calendarApiDataList) {
+    for (const calendarApiData of calendarApiDataList) {
       const eventList = this.getHolidayEventsPerCountry(calendarApiData);
       result.push(...eventList);
     }

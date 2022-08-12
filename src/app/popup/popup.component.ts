@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -18,29 +19,61 @@ import { FullCalendarService } from '../services/full-calendar.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class PopupComponent implements OnInit {
+  // https://qiita.com/yoshi034/items/bdd3b6b779d337dae65b
   public calendarOptions: CalendarOptions = {};
+  public isLoadingHolidays: boolean = false;
+  public isNoCountrySelected: boolean = false;
   @ViewChild('dayTooltip') dayTooltip!: ElementRef<HTMLSpanElement>;
 
-  constructor(private fullCalendarService: FullCalendarService) {
+  constructor(
+    private fullCalendarService: FullCalendarService,
+    private cd: ChangeDetectorRef
+  ) {
     this.calendarOptions = this.fullCalendarService.getCalendarOptions();
-  }
 
-  public async ngOnInit(): Promise<void> {
-    this.calendarOptions.events =
-      await this.fullCalendarService.getHolidayEvents();
-
-    const changeEvent = async (
-      changes: { [key: string]: StorageChange },
-      area: Area
-    ) => {
+    chrome.storage.onChanged.addListener(async (changes, area) => {
       const newValue: CalendarApiData[] | undefined =
         changes[ChromeStorage.CALENDAR_API_DATA_LIST]?.newValue;
 
       if (area === 'local' && newValue !== undefined) {
         this.calendarOptions.events =
-          await this.fullCalendarService.getHolidayEvents();
+          await this.fullCalendarService.getHolidayEvents(newValue);
+
+        this.isNoCountrySelected = newValue.length === 0 ? true : false;
+        this.cd.detectChanges();
       }
-    };
-    chrome.storage.onChanged.addListener(changeEvent);
+    });
+
+    chrome.storage.onChanged.addListener((changes, area) => {
+      const isLoadingHolidays: boolean | undefined =
+        changes[ChromeStorage.IS_LOADING_HOLIDAYS]?.newValue;
+      if (area === 'local' && isLoadingHolidays !== undefined) {
+        this.isLoadingHolidays = isLoadingHolidays;
+        this.cd.detectChanges();
+      }
+    });
+  }
+
+  public async ngOnInit(): Promise<void> {
+    const { calendarApiDataList } = await chrome.storage.local.get(
+      ChromeStorage.CALENDAR_API_DATA_LIST
+    );
+
+    if (calendarApiDataList === undefined) {
+      console.log('CalendarService: calendarApiDataList empty');
+      return;
+    }
+
+    this.isNoCountrySelected = calendarApiDataList.length === 0 ? true : false;
+
+    this.calendarOptions.events =
+      await this.fullCalendarService.getHolidayEvents(calendarApiDataList);
+
+    const { isLoadingHolidays } = await chrome.storage.local.get(
+      ChromeStorage.IS_LOADING_HOLIDAYS
+    );
+    if (isLoadingHolidays !== undefined) {
+      this.isLoadingHolidays = isLoadingHolidays;
+    }
   }
 }

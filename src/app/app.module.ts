@@ -8,11 +8,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PopupComponent } from './popup/popup.component';
 import { OptionsComponent } from './options/options.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 @NgModule({
   declarations: [AppComponent, PopupComponent, OptionsComponent],
-  imports: [BrowserModule, AppRoutingModule, FullCalendarModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FullCalendarModule,
+    MatProgressSpinnerModule,
+  ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
 })

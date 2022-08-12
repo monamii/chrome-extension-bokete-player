@@ -8,27 +8,16 @@ popup {
     position: relative;
 }
 
-// .day_detail_tooltip {
-//     position: absolute;
-//     bottom: 80%;
-//     left: 0px;
-//     padding: 6px 10px;
-//     background: #01579B;
-//     color: #FFF;
-//     width: 200px;
-//     font-size: 0.8rem;
-//     border-radius: 10px;
-//     transition: 0.5s;
-//     display: none;
-//     z-index: 10;
-// }
+.fc-event-title{
+  font-weight: bold;
+}
 
 .day_detail_tooltip {
   position: absolute;
   padding: 6px 10px;
   background: #01579B;
   color: #FFF;
-  width: 200px;
+  max-width: 300px;
   font-size: 0.8rem;
   border-radius: 10px;
   transition: 0.5s;
@@ -37,26 +26,68 @@ popup {
   opacity: 0.9;
 }
 
+.day_detail_tooltip:after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 16px;
+  border: 5px solid transparent;
+  border-top: 8px solid #01579B;
+  z-index: 10;
+}
+
 .day_detail_tooltip_location {
     bottom: 80%;
     left: 0px;
 }
 
+.fc-scrollgrid-sync-table tr:nth-child(1) .day_detail_tooltip:after,
+.fc-scrollgrid-sync-table tr:nth-child(2) .day_detail_tooltip:after {
+  top: calc(0% - 12px);
+  border-bottom: 8px solid #01579B;
+  border-top: 5px solid transparent;
+}
+
 .fc-scrollgrid-sync-table tr:nth-child(1) .day_detail_tooltip_location,
 .fc-scrollgrid-sync-table tr:nth-child(2) .day_detail_tooltip_location {
-    bottom: -25%;
+    bottom: -30%;
 }
 
-.fc-scrollgrid-sync-table tr td:nth-child(6) .day_detail_tooltip_location {
-    left: -50px;
-}
-
+.fc-scrollgrid-sync-table tr td:nth-child(5) .day_detail_tooltip_location,
+.fc-scrollgrid-sync-table tr td:nth-child(6) .day_detail_tooltip_location,
 .fc-scrollgrid-sync-table tr td:nth-child(7) .day_detail_tooltip_location {
-    left: -130px;
+    left: -200px;
+}
+
+.fc-scrollgrid-sync-table tr td:nth-child(5) .day_detail_tooltip:after,
+.fc-scrollgrid-sync-table tr td:nth-child(6) .day_detail_tooltip:after,
+.fc-scrollgrid-sync-table tr td:nth-child(7) .day_detail_tooltip:after {
+  left: 210px;
 }
 
 .fc-day:hover .day_detail_tooltip:not(:empty) {
 	display: block;
+}
+
+.fc-day .day_detail_tooltip table {
+	table-layout: auto !important;
+}
+
+.fc-day .day_detail_tooltip table td{
+  padding-right: 8px;
+  border-width: 1px 0;
+}
+
+.fc-day .day_detail_tooltip table td:nth-child(1){
+  white-space: nowrap
+}
+
+.fc-day .day_detail_tooltip table td:nth-child(2){
+  min-width: 150px
+}
+
+.fc-day .day_detail_tooltip table td img{
+  margin-right: 3px;
 }
 
 .fc-h-event .fc-event-title {
@@ -67,4 +98,30 @@ popup {
   width: 20px;
   height: 12px;
   border: 1px solid black;
+}
+
+.overlay {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(225, 225, 225, 0.5);
+  z-index: 1000000;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-country-selected-message{
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 540px;
+  left: 80px;
+  z-index: 100;
+  color: red;
+  font-size: small;
+  font-weight: bold;
 }

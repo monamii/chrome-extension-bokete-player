@@ -1,1 +1,7 @@
+<div *ngIf="isLoadingHolidays" class="overlay">
+    <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
+</div>
+<div *ngIf="isNoCountrySelected" class="no-country-selected-message">
+    <div>No Country/Location is selected. Let's select it from the Options Page.</div>
+</div>
 <full-calendar [options]="calendarOptions"></full-calendar>
