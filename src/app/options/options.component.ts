@@ -25,7 +25,7 @@ export class OptionsComponent implements OnInit {
   public selectedCountries: Map<string, Country> = new Map();
   public countryOptions: CountryOptions;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor() {
     this.countryOptions = countryOptionsData;
   }
 

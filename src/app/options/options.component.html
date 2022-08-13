@@ -1,56 +1,73 @@
 <div id="container">
-
   <div id="country_picker_wrapper">
     <div id="country_picker" class="section">
       <div class="section_header">
-        <span class="title">Country Picker</span>
-        <button (click)="onAddButtonClick()">Add Country</button>
-        <div class="section_body">
-          <ul id="countryOptionList" #countryOptionsArea>
-            <li *ngFor="let region of countryOptions.regions">
-              <span (click)="onRegionClick($event)" class="caret">{{region.label}}</span>
-              <ul class="nested list">
-                <li class="country_option_list" *ngFor="let option of region.country"
-                  (click)="onCountryClick($event, option)">
-                  <span class="country_option" [attr.disabled]="watchList.has(option.code)"
-                    [attr.selected]="selectedCountries.has(option.code)">{{option.label}}</span>
-                </li>
-              </ul>
-            </li>
-          </ul>
+        <div class="section-title">Country Picker</div>
+        <div class="section-menu">
+          <button (click)="onAddButtonClick()">Add Country</button>
         </div>
+      </div>
+
+      <div class="section_body">
+        <ul id="countryOptionList" #countryOptionsArea>
+          <li *ngFor="let region of countryOptions.regions">
+            <span (click)="onRegionClick($event)" class="caret">{{
+              region.label
+            }}</span>
+            <ul class="nested list">
+              <li
+                class="country_option_list"
+                *ngFor="let option of region.country"
+                (click)="onCountryClick($event, option)"
+              >
+                <span
+                  class="country_option"
+                  [attr.disabled]="watchList.has(option.code)"
+                  [attr.selected]="selectedCountries.has(option.code)"
+                  >{{ option.label }}</span
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
 
     <div id="country_search" class="section">
       <div class="section_header">
-        <span class="title">Search</span>
+        <div class="section-title">Search</div>
       </div>
 
       <div class="section_body">
-        <input type="text" class="search" placeholder="Please enater country name" />
+        <input
+          type="text"
+          class="search"
+          placeholder="Please enater country name"
+        />
       </div>
     </div>
   </div>
 
   <div id="country_list" class="section">
     <div class="section_header">
-      <span class="title">Picked Country List</span>
+      <div class="section-title">Picked Country List</div>
     </div>
 
     <div class="section_body">
       <table>
         <thead>
           <tr>
-            <th>Country Name</th>
+            <th>Country</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let country of sortedWatchList">
-            <td>{{country.label}}</td>
+          <tr *ngFor="let country of sortedWatchList" class="watch-country">
+            <td>{{ country.label }}</td>
             <td>
-              <button type="button" (click)="onDeleteClick(country)">Delete</button>
+              <button type="button" (click)="onDeleteClick(country)">
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
