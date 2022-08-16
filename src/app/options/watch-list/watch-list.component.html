@@ -1,0 +1,26 @@
+<div id="country_list" class="section">
+  <div class="section_header">
+    <div class="section-title">Picked Country List</div>
+  </div>
+
+  <div class="section_body">
+    <table>
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let country of sortedWatchList" class="watch-country">
+          <td>{{ country.label }}</td>
+          <td>
+            <button type="button" (click)="onDeleteClick(country)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

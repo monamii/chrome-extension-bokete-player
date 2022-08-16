@@ -1,0 +1,32 @@
+<div id="country_picker" class="section">
+  <div class="section_header">
+    <div class="section-title">Country Picker</div>
+    <div class="section-menu">
+      <button (click)="onAddButtonClick()">Add Country</button>
+    </div>
+  </div>
+
+  <div class="section_body">
+    <ul id="countryOptionList">
+      <li *ngFor="let region of countryOptions.regions">
+        <span (click)="onRegionClick($event)" class="caret">{{
+          region.label
+        }}</span>
+        <ul class="nested list">
+          <li
+            class="country_option_list"
+            *ngFor="let option of region.country"
+            (click)="onCountryClick($event, option)"
+          >
+            <span
+              class="country_option"
+              [attr.disabled]="watchList.has(option.code)"
+              [attr.selected]="selectedCountries.has(option.code)"
+              >{{ option.label }}</span
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

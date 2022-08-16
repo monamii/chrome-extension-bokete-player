@@ -1,77 +1,19 @@
 <div id="container">
   <div id="country_picker_wrapper">
-    <div id="country_picker" class="section">
-      <div class="section_header">
-        <div class="section-title">Country Picker</div>
-        <div class="section-menu">
-          <button (click)="onAddButtonClick()">Add Country</button>
-        </div>
-      </div>
+    <app-country-picker
+      [watchList]="watchList"
+      [sortedWatchList]="sortedWatchList"
+      (watchListEvent)="handleWatchListEvent($event)"
+      (sortedWatchListEvent)="handleSortedWatchListEvent($event)"
+    ></app-country-picker>
 
-      <div class="section_body">
-        <ul id="countryOptionList" #countryOptionsArea>
-          <li *ngFor="let region of countryOptions.regions">
-            <span (click)="onRegionClick($event)" class="caret">{{
-              region.label
-            }}</span>
-            <ul class="nested list">
-              <li
-                class="country_option_list"
-                *ngFor="let option of region.country"
-                (click)="onCountryClick($event, option)"
-              >
-                <span
-                  class="country_option"
-                  [attr.disabled]="watchList.has(option.code)"
-                  [attr.selected]="selectedCountries.has(option.code)"
-                  >{{ option.label }}</span
-                >
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="country_search" class="section">
-      <div class="section_header">
-        <div class="section-title">Search</div>
-      </div>
-
-      <div class="section_body">
-        <input
-          type="text"
-          class="search"
-          placeholder="Please enater country name"
-        />
-      </div>
-    </div>
+    <app-country-search></app-country-search>
   </div>
 
-  <div id="country_list" class="section">
-    <div class="section_header">
-      <div class="section-title">Picked Country List</div>
-    </div>
-
-    <div class="section_body">
-      <table>
-        <thead>
-          <tr>
-            <th>Country</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let country of sortedWatchList" class="watch-country">
-            <td>{{ country.label }}</td>
-            <td>
-              <button type="button" (click)="onDeleteClick(country)">
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <app-watch-list
+    [watchList]="watchList"
+    [sortedWatchList]="sortedWatchList"
+    (watchListEvent)="handleWatchListEvent($event)"
+    (sortedWatchListEvent)="handleSortedWatchListEvent($event)"
+  ></app-watch-list>
 </div>

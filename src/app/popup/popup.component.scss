@@ -99,29 +99,3 @@ popup {
   height: 12px;
   border: 1px solid black;
 }
-
-.overlay {
-  position: fixed;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(225, 225, 225, 0.5);
-  z-index: 1000000;
-  justify-content: center;
-  align-items: center;
-}
-
-.no-country-selected-message{
-  position: fixed;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  top: 540px;
-  left: 80px;
-  z-index: 100;
-  color: red;
-  font-size: small;
-  font-weight: bold;
-}

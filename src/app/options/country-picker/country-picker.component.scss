@@ -1,0 +1,55 @@
+#countryOptionList{
+    height: 400px;
+    overflow-y: auto;
+}
+
+.country_option[disabled="false"]:hover{
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+.country_option[disabled="true"]{
+    cursor: default;
+}
+
+
+#country_picker .section_body span[selected="true"]{
+    background-color: lightblue;
+}
+#country_picker .section_body span[disabled="true"]{
+    color: #9d9d9d;
+    background-color: #efefef;
+}
+#country_picker .section_body ul{
+    list-style-type: none;
+}
+#country_picker .section_body li{
+    padding: 3px 0px;
+}
+#country_picker .section_body #countryOptionList{
+    padding: 0px;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+
+.caret::before {
+    content: "\25B6";
+    color: rgb(202, 202, 202);
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret[active]::before{
+    transform: rotate(90deg);  
+    color: black; 
+}
+
+.nested{
+    display: none;
+}
+.nested[active]{
+    display: block; 
+}

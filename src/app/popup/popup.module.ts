@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserModule } from '@angular/platform-browser';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { PopupComponent } from './popup.component';
+import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
+import { MessageComponent } from './message/message.component';
 
-const routes: Routes = [];
+FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [PopupComponent, ProgressSpinnerComponent, MessageComponent],
+  imports: [BrowserModule, MatProgressSpinnerModule, FullCalendarModule],
 })
-export class AppRoutingModule { }
+export class PopupModule {}

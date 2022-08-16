@@ -4,12 +4,12 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
+  ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { CalendarApiData } from 'src/app/model/CalendarApiData';
 import { ChromeStorage } from 'src/app/model/enum/ChromeStorage';
-import { Area, StorageChange } from 'src/app/model/type/ChromeSupplementalType';
 import { FullCalendarService } from '../services/full-calendar.service';
 
 @Component({
@@ -19,11 +19,11 @@ import { FullCalendarService } from '../services/full-calendar.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class PopupComponent implements OnInit {
-  // https://qiita.com/yoshi034/items/bdd3b6b779d337dae65b
   public calendarOptions: CalendarOptions = {};
   public isLoadingHolidays: boolean = false;
   public isNoCountrySelected: boolean = false;
-  @ViewChild('dayTooltip') dayTooltip!: ElementRef<HTMLSpanElement>;
+  public readonly popupMessage: string =
+    "No Country/Location is selected. Let's select it from the Options Page.";
 
   constructor(
     private fullCalendarService: FullCalendarService,
